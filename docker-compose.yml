@@ -1,0 +1,22 @@
+services:
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "YourStrong@Pass123"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql  
+
+  fastapi:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    depends_on:
+        - sqlserver
+
+
+volumes:
+  sqlserver_data:    
