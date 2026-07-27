@@ -3,6 +3,12 @@ using NET.Services;
 
 namespace NET.Controllers;
 
+
+public class ChatRequest
+{
+    public string Question { get; set; } = "";
+}
+
 [ApiController]
 [Route("chat")]
 public class ChatController : ControllerBase
@@ -15,17 +21,11 @@ public class ChatController : ControllerBase
         _chatService = chatService;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Chat(
-        string question)
-    {
-        var answer =
-            await _chatService
-                .AskQuestion(question);
+    [HttpPost]
+public async Task<IActionResult> Chat([FromBody] ChatRequest request)
+{
+    var answer = await _chatService.AskQuestion(request.Question);
 
-        return Content(
-            answer,
-            "application/json"
-        );
-    }
+    return Content(answer, "application/json");
+}
 }

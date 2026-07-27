@@ -1,26 +1,211 @@
-CREATE TABLE Employees (
-    Id INT PRIMARY KEY,
-    FirstName VARCHAR(100),
-    LastName VARCHAR(100),
-    Salary DECIMAL(10,2),
-    DepartmentId INT,
+/*
+=========================================================
+AdventureWorks2022 - AI Sales Chatbot Reference
+=========================================================
 
-    FOREIGN KEY (DepartmentId)
-    REFERENCES Departments(Id)
-);
+Database: AdventureWorks2022
 
-CREATE TABLE Departments (
-    Id INT PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL
-);
+Only these tables are used by the chatbot.
 
-INSERT INTO Departments VALUES
-(1,'IT'),
-(2,'HR'),
-(3,'Finance');
+=========================================================
+1. Products
+=========================================================
+*/
 
-INSERT INTO Employees VALUES
-(1,'Ahmed','Ben Ali',3500,1),
-(2,'Sonia','Trabelsi',4200,1),
-(3,'Mohamed','Jaziri',3000,2),
-(4,'Leila','Ayadi',5000,3);
+-- Production.Product
+-- Primary Key: ProductID
+
+SELECT
+    ProductID,
+    Name,
+    ProductNumber,
+    Color,
+    StandardCost,
+    ListPrice,
+    ProductSubcategoryID
+FROM Production.Product;
+
+
+/*
+=========================================================
+2. Product Categories
+=========================================================
+*/
+
+-- Production.ProductCategory
+-- Primary Key: ProductCategoryID
+
+SELECT
+    ProductCategoryID,
+    Name
+FROM Production.ProductCategory;
+
+
+/*
+=========================================================
+3. Product Subcategories
+=========================================================
+*/
+
+-- Production.ProductSubcategory
+-- Primary Key: ProductSubcategoryID
+
+SELECT
+    ProductSubcategoryID,
+    ProductCategoryID,
+    Name
+FROM Production.ProductSubcategory;
+
+
+/*
+=========================================================
+4. Inventory
+=========================================================
+*/
+
+-- Production.ProductInventory
+
+SELECT
+    ProductID,
+    LocationID,
+    Shelf,
+    Quantity
+FROM Production.ProductInventory;
+
+
+/*
+=========================================================
+5. Customers
+=========================================================
+*/
+
+-- Sales.Customer
+
+SELECT
+    CustomerID,
+    PersonID,
+    StoreID,
+    TerritoryID
+FROM Sales.Customer;
+
+
+/*
+=========================================================
+6. Customer Names
+=========================================================
+*/
+
+-- Person.Person
+
+SELECT
+    BusinessEntityID,
+    FirstName,
+    LastName
+FROM Person.Person;
+
+
+/*
+=========================================================
+7. Sales Orders
+=========================================================
+*/
+
+-- Sales.SalesOrderHeader
+
+SELECT
+    SalesOrderID,
+    CustomerID,
+    OrderDate,
+    Status,
+    TotalDue
+FROM Sales.SalesOrderHeader;
+
+
+/*
+=========================================================
+8. Sales Order Details
+=========================================================
+*/
+
+-- Sales.SalesOrderDetail
+
+SELECT
+    SalesOrderID,
+    ProductID,
+    OrderQty,
+    UnitPrice,
+    LineTotal
+FROM Sales.SalesOrderDetail;
+
+
+/*
+=========================================================
+Relationships
+=========================================================
+
+Product.ProductSubcategoryID
+    -> ProductSubcategory.ProductSubcategoryID
+
+ProductSubcategory.ProductCategoryID
+    -> ProductCategory.ProductCategoryID
+
+ProductInventory.ProductID
+    -> Product.ProductID
+
+SalesOrderHeader.CustomerID
+    -> Customer.CustomerID
+
+Customer.PersonID
+    -> Person.BusinessEntityID
+
+SalesOrderDetail.SalesOrderID
+    -> SalesOrderHeader.SalesOrderID
+
+SalesOrderDetail.ProductID
+    -> Product.ProductID
+
+=========================================================
+Common Joins
+=========================================================
+
+Products + Category
+
+Product
+JOIN ProductSubcategory
+    ON Product.ProductSubcategoryID = ProductSubcategory.ProductSubcategoryID
+JOIN ProductCategory
+    ON ProductSubcategory.ProductCategoryID = ProductCategory.ProductCategoryID
+
+---------------------------------------------------------
+
+Orders + Customer
+
+SalesOrderHeader
+JOIN Customer
+    ON SalesOrderHeader.CustomerID = Customer.CustomerID
+
+---------------------------------------------------------
+
+Customer + Person
+
+Customer
+JOIN Person
+    ON Customer.PersonID = Person.BusinessEntityID
+
+---------------------------------------------------------
+
+Order + Product
+
+SalesOrderDetail
+JOIN Product
+    ON SalesOrderDetail.ProductID = Product.ProductID
+
+---------------------------------------------------------
+
+Header + Details
+
+SalesOrderHeader
+JOIN SalesOrderDetail
+    ON SalesOrderHeader.SalesOrderID = SalesOrderDetail.SalesOrderID
+
+=========================================================

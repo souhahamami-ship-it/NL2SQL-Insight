@@ -6,6 +6,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<DepartmentsService>();
 builder.Services.AddScoped<IChatService,ChatService>();
+builder.Services.AddHttpClient<DashboardService>();
 
 builder.Services.AddControllers();
 

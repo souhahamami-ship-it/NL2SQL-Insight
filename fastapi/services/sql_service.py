@@ -3,18 +3,14 @@ from database import engine
 
 
 def execute_sql(sql: str):
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text(sql))
 
-    with engine.connect() as conn:
+            return [dict(row._mapping) for row in result]
 
-        result = conn.execute(
-            text(sql)
-        )
-
-        rows = []
-
-        for row in result:
-            rows.append(
-                dict(row._mapping)
-            )
-
-        return rows
+    except Exception as e:
+        print("\nSQL EXECUTION ERROR")
+        print(sql)
+        print(e)
+        raise

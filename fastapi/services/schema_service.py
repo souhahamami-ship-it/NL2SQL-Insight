@@ -3,47 +3,68 @@ from database import engine
 
 
 def get_schema():
+    return """
+Production.Product
+(
+    ProductID,
+    Name,
+    ProductNumber,
+    Color,
+    StandardCost,
+    ListPrice,
+    ProductSubcategoryID
+)
 
-    schema_text = ""
+Production.ProductCategory
+(
+    ProductCategoryID,
+    Name
+)
 
-    with engine.connect() as conn:
+Production.ProductSubcategory
+(
+    ProductSubcategoryID,
+    ProductCategoryID,
+    Name
+)
 
-        result = conn.execute(
-            text("""
-                SELECT
-                    TABLE_NAME,
-                    COLUMN_NAME
-                FROM INFORMATION_SCHEMA.COLUMNS
-                ORDER BY
-                    TABLE_NAME,
-                    ORDINAL_POSITION
-            """)
-        )
+Production.ProductInventory
+(
+    ProductID,
+    Quantity
+)
 
-        tables = {}
+Sales.Customer
+(
+    CustomerID,
+    PersonID
+)
 
-        for row in result:
+Person.Person
+(
+    BusinessEntityID,
+    FirstName,
+    LastName
+)
 
-            table = row.TABLE_NAME
-            column = row.COLUMN_NAME
+Sales.SalesOrderHeader
+(
+    SalesOrderID,
+    CustomerID,
+    OrderDate,
+    Status,
+    TotalDue
+)
 
-            if table not in tables:
-                tables[table] = []
-
-            tables[table].append(column)
-
-    for table, columns in tables.items():
-
-        schema_text += f"{table}(\n"
-
-        for column in columns:
-            schema_text += f"    {column},\n"
-
-        schema_text += ")\n\n"
-        schema_text += """
-Relationships:
-
-Employees.DepartmentId references Departments.Id
+Sales.SalesOrderDetail
+(
+    SalesOrderID,
+    ProductID,
+    OrderQty,
+    UnitPrice,
+    LineTotal
+)
 """
+        
 
-    return schema_text
+    
