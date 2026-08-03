@@ -14,9 +14,9 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import "./Dashboard.css";
+import "../styles/Dashboard.css";
 import { Link } from "react-router-dom";
-import { BsChatDotsFill } from "react-icons/bs";
+import { BsChatDotsFill, BsPersonCircle } from "react-icons/bs";
 
 const API_URL = "http://localhost:5097/dashboard";
 
@@ -140,11 +140,18 @@ export default function Dashboard() {
         <h1>Sales Dashboard</h1>
         <p>AdventureWorks Overview</p>
     </div>
+    
+    <div style={{ display: "flex", gap: "12px" }}>
+  <Link to="/chat" className="ai-btn">
+    <BsChatDotsFill className="chat-icon" />
+    <span>AI Assistant</span>
+  </Link>
 
-    <Link to="/chat" className="ai-btn">
-      <BsChatDotsFill className="chat-icon" />
-      <span>AI Assistant</span>
-    </Link>
+  <Link to="/profile" className="ai-btn">
+    <BsPersonCircle className="chat-icon" />
+    <span>Profile</span>
+  </Link>
+</div>
 
 </div>
       {/* Stat cards */}

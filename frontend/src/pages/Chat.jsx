@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import "./Chat.css";
+import "../styles/Chat.css";
 import { Link } from "react-router-dom";
+import {  BsPersonCircle } from "react-icons/bs";
 
 const API_URL = "http://localhost:5097/chat";
 
@@ -96,6 +97,7 @@ export default function Chat() {
         <Link to="/dashboard" className="btn-ghost">
             Dashboard
         </Link>
+        
 
         <button
             className="btn-ghost"
@@ -104,6 +106,10 @@ export default function Chat() {
         >
             Clear Chat
         </button>
+         
+        <Link to="/profile" className="btn-ghost">
+         <BsPersonCircle  /> <span>    Profile</span>
+          </Link>
 
     </div>
 

@@ -1,14 +1,47 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Chat from "./pages/Chat";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
 import Dashboard from "./pages/Dashboard";
+import Chat from "./pages/Chat";
+
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/chat" element={<Chat />} />
+      <Route path="/" element={<Navigate to="/login" replace />} />
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/chat"
+        element={
+          <ProtectedRoute>
+            <Chat />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 }
