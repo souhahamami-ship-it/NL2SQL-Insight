@@ -1,4 +1,4 @@
-# AI Sales Assistant – Natural Language to SQL
+# NL2SQL Insight – Natural Language to SQL
 
 An AI-powered business intelligence web application that enables users to query a SQL Server database using natural language. The system leverages a Large Language Model (LLM) to translate user questions into SQL queries, executes them against the AdventureWorks2022 database, and presents both textual answers and interactive business dashboards.
 
